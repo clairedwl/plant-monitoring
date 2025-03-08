@@ -12,9 +12,11 @@ void led_blink(void *pvParams) {
         vTaskDelay(1000/portTICK_PERIOD_MS);
         gpio_set_level(LED_PIN,1);
         vTaskDelay(1000/portTICK_PERIOD_MS);
+        printf("hello world✨\n");
+
     }
 }
 
 void app_main() {
-    xTaskCreate(&led_blink,"LED_BLINK",512,NULL,5,NULL);
+    xTaskCreate(&led_blink,"LED_BLINK",1024,NULL,5,NULL);
 }
