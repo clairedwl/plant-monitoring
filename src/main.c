@@ -1,7 +1,8 @@
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-
+#include "driver/adc.h"
+#include "esp_adc_cal.h"
 
 #include "dht11.h"
 
@@ -35,7 +36,21 @@ void humidity_task(){
     }
 }
 
+void moisture_task() {
+    adc1_config_width(ADC_WIDTH_BIT_12);
+    adc1_config_channel_atten(ADC1_CHANNEL_0,ADC_ATTEN_DB_11);
+    int raw_value =0;
+    while(1) {
+    raw_value = adc1_get_raw(ADC1_CHANNEL_0);
+    printf("%d\n", raw_value);
+    vTaskDelay(1000/portTICK_PERIOD_MS);
+
+    }
+
+}
+
 void app_main() {
-    xTaskCreate(&led_blink,"LED_BLINK",1024,NULL,5,NULL);
-    xTaskCreate(&humidity_task, "humidity",2048,NULL,1,NULL);
+    //xTaskCreate(&led_blink,"LED_BLINK",1024,NULL,5,NULL);
+    //xTaskCreate(&humidity_task, "humidity",2048,NULL,1,NULL);
+    xTaskCreate(&moisture_task, "moisture",2048,NULL,1,NULL);
 }
