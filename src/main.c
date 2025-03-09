@@ -2,12 +2,17 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
+
+#include "dht11.h"
+
+
 #define LED_PIN 8
+#define capt_pin GPIO_NUM_0
 
 
 void led_blink(void *pvParams) {
-    esp_rom_gpio_pad_select_gpio(LED_PIN);
-    gpio_set_direction (LED_PIN,GPIO_MODE_OUTPUT);
+       esp_rom_gpio_pad_select_gpio(LED_PIN);
+     gpio_set_direction (LED_PIN,GPIO_MODE_OUTPUT);
     while (1) {
         gpio_set_level(LED_PIN,0);
         vTaskDelay(1000/portTICK_PERIOD_MS);
@@ -19,9 +24,13 @@ void led_blink(void *pvParams) {
 }
 
 void humidity_task(){
-    printf("init");
+   
+    DHT11_init(capt_pin);
     while(1) {
-        printf("test\n");
+       
+        printf("Humidity is %d\n", DHT11_read().humidity);
+        printf("Temperature is %d \n", DHT11_read().temperature);
+        printf("Status code is %d\n", DHT11_read().status);
         vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
