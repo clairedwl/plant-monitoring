@@ -16,7 +16,7 @@
 
 
 #define WIFI_SSID "Livebox-23B0"   // AP SSID
-#define WIFI_PASS "*******" // AP Password
+#define WIFI_PASS "XXXX" // AP Password
 #define URL "http://192.168.1.15:5000"
 
 #define LED_PIN 8
@@ -24,7 +24,7 @@
 #define RAW_DRY 4095           // Valeur mesurée en sol sec
 #define RAW_WET 1650           // Valeur mesurée dans l'eau
 #define RAW_DRY_SOIL 3200      // Valeur mesurée dans sol sec
-#define PERCENTAGE_DRY_SOIL 37 // en pourcentage
+#define PERCENTAGE_DRY_SOIL 30 // en pourcentage
 
 static const char *TAG = "wifi_connect";
 esp_ip4_addr_t static_addr;
@@ -252,6 +252,6 @@ void app_main()
     
     // Create tasks
     xTaskCreate(&led_blink, "LED_BLINK", 2048, NULL, 5, NULL);
-   // xTaskCreate(&humidity_task, "humidity", 2048, NULL, 1, NULL);
+    xTaskCreate(&humidity_task, "humidity", 2048, NULL, 1, NULL);
     xTaskCreate(&moisture_task, "moisture", 8048, NULL, 1, NULL);
 }
